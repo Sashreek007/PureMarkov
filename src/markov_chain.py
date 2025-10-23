@@ -36,3 +36,24 @@ class Markovchain:
         self.vocabulary = set()
 
         self.transistionCount = 0
+
+    def tokenize(self, text):
+        """
+        Convert text string into a list of word (tokens)
+        My approach is to just normalize everything(basically lowercase everything) and split on whitespace
+
+        Args:
+            text (str): Raw text to tokenize
+
+        Returns:
+            list: List of words
+
+        Example:
+            "The cat sat on the bed" -> ["the", "cat", "sat", "on", "the", "bed"]
+        """
+
+        text = text.lower()
+
+        words = text.split()
+
+        return words
