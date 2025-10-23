@@ -105,3 +105,19 @@ class Markovchain:
         print(f"Trained on {len(words)} words")
         print(f"Vocabulary size: {len(self.vocabulary)}")
         print(f"Unique transitions learned: {len(self.transitions)}")
+
+    def getTransitions(self, word):
+        """
+        get all possible next words after a given word.
+
+        Args:
+            word(str): The context word
+
+        Returns:
+        dict: {nextWord: count, nextWord:count.......}
+
+        Example:
+            model.getTransitions("the")-> {"cat":2,"dog":3}
+        """
+
+        return dict(self.transitions.get(word, {}))
