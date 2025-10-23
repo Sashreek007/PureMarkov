@@ -195,7 +195,7 @@ class Markovchain:
             chose = random.choices(words, weights=probs, k=1)[0]
             return chose
 
-    def generateTest(self, startContext, length=10, method="max"):
+    def generateText(self, startContext, length=10, method="max"):
         """
         Generate text starting from a given context.
 
@@ -225,7 +225,7 @@ class Markovchain:
         generatedWords = list(context)
 
         for _ in range(length):
-            currentContext = tuple(generatedWords[self.order])
+            currentContext = tuple(generatedWords[-self.order :])
             nextWord = self.predictNext(currentContext, method=method)
 
             if nextWord is None:
@@ -233,3 +233,26 @@ class Markovchain:
 
             generatedWords.append(nextWord)
         return " ".join(generatedWords)
+
+    def getStats(self):
+        """
+        Get model statistics
+
+        Returns:
+            Dictionary containing model information
+
+        Example:
+            model.getStats()
+            {
+                'order': 2,
+                'vocabulary_size': 42,
+                'unique_contexts': 38,
+                'total_transitions': 100
+            }
+        """
+        return {
+            "order": self.order,
+            "vocabularySize": len(self.vocabulary),
+            "uniqueContexts": len(self.transitions),
+            "totalTransitions": self.transistionCount,
+        }
