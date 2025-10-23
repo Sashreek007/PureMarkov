@@ -194,3 +194,42 @@ class Markovchain:
 
             chose = random.choices(words, weights=probs, k=1)[0]
             return chose
+
+    def generateTest(self, startContext, length=10, method="max"):
+        """
+        Generate text starting from a given context.
+
+        Args:
+            startContext: Initial context to start generation
+                         - For order=1: a string, e.g., "the"
+                         - For order=2: a tuple of 2 words, e.g., ("the", "cat")
+
+            length: Number of words to generate after the starting context
+            method: 'max' for deterministic, 'sample' for probabilistic
+
+        Returns:
+            Generated text as a string
+
+        Example for order=1:
+            model.generateText("the", length=8, method="max")->'the cat sat on the mat the cat sat'
+
+        Example for order=2:
+            model.generateText(("the", "cat"), length=8, method="max")->'the cat sat on the mat and looked outside'
+        """
+
+        if isinstance(startContext, str):
+            context = (startContext,)
+        else:
+            context = startContext
+
+        generatedWords = list(context)
+
+        for _ in range(length):
+            currentContext = tuple(generatedWords[self.order])
+            nextWord = self.predictNext(currentContext, method=method)
+
+            if nextWord is None:
+                break
+
+            generatedWords.append(nextWord)
+        return " ".join(generatedWords)
