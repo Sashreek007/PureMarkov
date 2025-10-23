@@ -29,8 +29,17 @@ class Markovchain:
 
     """
 
-    def __init__(self) -> None:
-        """Initialize an empty markov chain"""
+    def __init__(self, order=1) -> None:
+        """Initialize an empty markov chain
+        Args:
+        order: Length of context to consider (default 1)
+               1 = unigram (single word context)
+               2 = bigram (two word context, recommended)
+               3 = trigram (three word context)
+               Higher values give better accuracy but need more data
+
+        """
+        self.order = order
 
         self.transitions = defaultdict(lambda: defaultdict(int))
 
@@ -63,83 +72,112 @@ class Markovchain:
         """
         This is not exactly machine learning way of training. Its more like a count-based statistical training
 
-        1. We tokenize the text into words useing the function created
-        2. For each word record the next word in the dict created with the count, increment it
-        3. Add words to the vacbulary set
+        Process:
+            1. Tokenize text into words
+            2. Create sliding windows of (order + 1) words
+            3. Extract (context, next_word) pairs from windows
+            4. Count occurrences of each transition
+            5. Build vocabulary set
 
         Args:
-            text(str): training text
+            text: Training text to learn from
 
-        Example:
-            If we train on "the cat sat on the bed":
-            - "the"-> "cat" (count:1)
-            - "cat" -> "sat" (count:1)
-            - "sat" -> "on" (count:1)
-            - "on" -> "the" (count:1)
-            - "the" -> "bed" (count:1)
+        Example for order=1:
+            model = Markovchain(order=1)
+             model.train("the cat sat on the bed")
+             After training, transitions will be:
+             {
+                 "the": {"cat": 1, "bed": 1},
+                 "cat": {"sat": 1},
+                 "sat": {"on": 1},
+                 "on": {"the": 1}
+             }
 
-        self.transitions would look like:
-            {
-                "the": {"cat": 1, "mat": 1},
-                "cat": {"sat": 1},
-                "sat": {"on": 1},
-                "on": {"the": 1},
-                "bed": {}
-
-            }
+        Example for order=2:
+             model = Markovchain(order=2)
+             model.train("the cat sat on the bed")
+             After training, transitions will be:
+             {
+                 ("the", "cat"): {"sat": 1},
+                 ("cat", "sat"): {"on": 1},
+                 ("sat", "on"): {"the": 1},
+                 ("on", "the"): {"bed": 1}
+             }
         """
 
         # Tokenize
         words = self.tokenize((text))
 
-        for i in range(len(words) - 1):
-            currentWord = words[i]
-            nextWord = words[i + 1]
-
-            self.transitions[currentWord][nextWord] += 1
+        for i in range(len(words) - self.order):
+            context = tuple(words[i : i + self.order])
+            nextWord = words[i + self.order]
+            self.transitions[context][nextWord] += 1
             # the number of times we saw a new word
             self.transistionCount += 1
 
-            self.vocabulary.add(currentWord)
             self.vocabulary.add(nextWord)
+            for word in context:
+                self.vocabulary.add(word)
 
         print(f"Trained on {len(words)} words")
         print(f"Vocabulary size: {len(self.vocabulary)}")
         print(f"Unique transitions learned: {len(self.transitions)}")
+        print(f"Order: {self.order}")
 
-    def getTransitions(self, word):
+    def getTransitions(self, context):
         """
-        get all possible next words after a given word.
+        Get all possible next words after a given context with their counts.
 
         Args:
-            word(str): The context word
+            context: The context to look up
+                     - For order=1: a string, e.g., "cat"
+                     - For order=2: a tuple of 2 words, e.g., ("the", "cat")
+                     - For order=3: a tuple of 3 words, e.g., ("the", "cat", "sat")
 
         Returns:
-        dict: {nextWord: count, nextWord:count.......}
+            Dictionary where keys are possible next words and values are counts
+            Returns empty dict if context not found in training data
 
-        Example:
-            model.getTransitions("the")-> {"cat":2,"dog":3}
+        Example for order=1:
+            model.getTransitions("the") ->{"cat": 2, "dog": 3}
+
+        Example for order=2:
+            model.getTransitions(("the", "cat"))->{"sat": 2, "and": 1}
         """
+        if isinstance(context, str):
+            context = (context,)
 
-        return dict(self.transitions.get(word, {}))
+        return dict(self.transitions.get(context, {}))
 
-    def predictNext(self, word, method="max"):
+    def predictNext(self, context, method="max"):
         """
-        Predict the next word after a given word.
+        Predict the next word after a given context.
 
         Args:
-            word (str): Context word
-            method(str): 'max' for most likely word, 'sample' for random weighted by probability
+            context: The context to predict from
+                     - For order=1: a string, e.g., "cat"
+                     - For order=2: a tuple of 2 words, e.g., ("the", "cat")
+                     - For order=3: a tuple of 3 words, e.g., ("the", "cat", "sat")
+
+            method:
+                'max' - Returns the most likely next word (deterministic)
+                'sample' - Returns a random word weighted by probability (probabilistic)
 
         Returns:
-            str: Predicted next word
+            Predicted next word as a string, or None if context not found in training data
 
-        Example:
-            model.predictNext("the", method= 'max')-> "cat" (most likely)
-            model.predictNext("the", method='sample') -> "dog" (random)
+        Example for order=1:
+            model.predictNext("the", method="max")->'cat'
+
+            model.predictNext("the", method="sample")->'dog'
+        Example for order=2:
+            model.predictNext(("the", "cat"), method="max")->'sat'
+
         """
+        if isinstance(context, str):
+            context = (context,)
 
-        nextWord = self.transitions.get(word, {})
+        nextWord = self.transitions.get(context, {})
         if not nextWord:
             return None
 
