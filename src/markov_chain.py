@@ -13,6 +13,7 @@ ps- this is my first time using fp, so code might be inefficient
 """
 
 from collections import defaultdict
+import random
 
 
 class Markovchain:
@@ -121,3 +122,37 @@ class Markovchain:
         """
 
         return dict(self.transitions.get(word, {}))
+
+    def predictNext(self, word, method="max"):
+        """
+        Predict the next word after a given word.
+
+        Args:
+            word (str): Context word
+            method(str): 'max' for most likely word, 'sample' for random weighted by probability
+
+        Returns:
+            str: Predicted next word
+
+        Example:
+            model.predictNext("the", method= 'max')-> "cat" (most likely)
+            model.predictNext("the", method='sample') -> "dog" (random)
+        """
+
+        nextWord = self.transitions.get(word, {})
+        if not nextWord:
+            return None
+
+        if method == "max":
+            maxWord = max(nextWord, key=nextWord.get)
+            return maxWord
+
+        elif method == "sample":
+            total = sum(nextWord.values())
+            probabilites = {w: count / total for w, count in nextWord.items()}
+
+            words = list(probabilites.keys())
+            probs = list(probabilites.values())
+
+            chose = random.choices(words, weights=probs, k=1)[0]
+            return chose
