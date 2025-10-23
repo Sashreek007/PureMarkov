@@ -7,4 +7,23 @@ The core idea:
     3. Store counts: after "the", we see "cat" 5 times, "dog" 3 times
     4. Convert to probabilities: P(cat|the)= 5/8, P(dog|the)= 3/8
     5. Use these probabilities to predict
+
+Most of this code is basic probability
+ps- this is my first time using fp, so code might be inefficient
 """
+
+from collections import defaultdict
+
+
+class Markovchain:
+    """
+    This is a markov chain model for predicting the next word.
+
+    Data structures used:
+            - self.transistions: {word:{next_word:count,...}}
+        Example: {"the"{"cat": 5, "dog":3, "mat":2}}
+        After "the", we've seen cat 5 times and dog 3 times
+
+    - self.vocabulary: this is a set containing all the unique words we have seen
+
+    """
