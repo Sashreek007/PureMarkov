@@ -27,3 +27,12 @@ class Markovchain:
     - self.vocabulary: this is a set containing all the unique words we have seen
 
     """
+
+    def __init__(self) -> None:
+        """Initialize an empty markov chain"""
+
+        self.transitions = defaultdict(lambda: defaultdict(int))
+
+        self.vocabulary = set()
+
+        self.transistionCount = 0
