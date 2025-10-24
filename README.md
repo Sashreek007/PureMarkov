@@ -1,6 +1,46 @@
 # PureMarkov
-PureMarkov is a from-scratch implementation of next-word prediction using Markov chains, written in Python with a functional programming approach. Instead of relying on external NLP libraries, the project constructs every component manually — from tokenization and transition mapping to probability normalization and sampling.
-## Quick Start
+
+PureMarkov is a from-scratch implementation of **statistical language modeling** using variable-order Markov chains. Built entirely in Python without external NLP libraries, it demonstrates the core principles of probabilistic text generation and next-word prediction.
+
+## What It Does
+
+Given a corpus of text, PureMarkov learns transition probabilities between word sequences and uses them to:
+- **Predict the next word** given a context
+- **Generate coherent text sequences** probabilistically
+- **Analyze text patterns** through statistical transitions
+
+## How It Works
+
+The implementation follows the classical approach to language modeling:
+
+1. **Tokenization** - Normalize and split text into words
+2. **Context Extraction** - Build n-gram contexts (order 1, 2, 3, etc.)
+3. **Transition Counting** - Track what words follow each context
+4. **Probability Normalization** - Convert counts to probability distributions
+5. **Text Generation** - Sample from distributions to generate text
+
+## Key Features
+
+- **Variable-order modeling** (unigram, bigram, trigram, etc.)
+- **Interactive CLI** for exploration and experimentation
+- **Pure Python** - No ML frameworks, just probability and statistics
+- **Fully tested** - 30 comprehensive unit tests
+- **Educational** - Clear, readable code demonstrating fundamental NLP concepts
+
+## The Math
+
+For order-N Markov chains:
+```
+P(word_t+1 | word_{t-n+1}...word_{t}) = count(word_{t-n+1}...,word_{t},word_{t+1}) / SUM(count(word_{t-n+1}...word_{t},word'))
+```
+
+
+## Limitations & Trade-offs
+
+- **Limited context** - No long-range dependencies (unlike neural networks)
+- **No semantic understanding** - Pure statistical pattern matching
+- **Memoryless** - Each prediction only considers the immediate context
+- ✅ **But**: Fast, interpretable, and resource-efficient
 
 ### 1. Download Training Data
 ```bash
