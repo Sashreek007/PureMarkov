@@ -20,7 +20,6 @@ Then:
 ## Features
 
 - **Variable-order Markov chains** (order 1, 2, 3+)
-- **Fast training** on large datasets (9.7M words in ~8 seconds)
 - **Interactive CLI** for predictions and text generation
 - **Comprehensive unit tests** (30 tests, all passing)
 - **Minimal dependencies** - pure Python implementation
