@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Create directory
-mkdir -p ~/MarkovData
-cd ~/MarkovData
+mkdir -p ./MarkovData
+cd ./MarkovData
 
 echo "Downloading books from Project Gutenberg..."
 echo "This will take 5-15 minutes..."
