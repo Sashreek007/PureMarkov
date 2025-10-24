@@ -8,7 +8,8 @@ python3 download_data.py
 This will download ~10 million words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
 ### 2. Run the CLI 
 ```bash
-python3 markovCLI.py
+chmod +x  markovData.sh
+./markovData.sh
 ```
 Then:
 - Select an order (1, 2, or 3)
