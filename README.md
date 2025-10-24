@@ -5,7 +5,7 @@ PureMarkov is a from-scratch implementation of **statistical language modeling**
 ```bash
 python3 download_data.py
 ```
-This will download ~10 million words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
+This will download words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
 ### 2. Run the CLI 
 ```bash
 chmod +x  markovData.sh
