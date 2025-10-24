@@ -2,6 +2,8 @@
 
 PureMarkov is a from-scratch implementation of **statistical language modeling** using variable-order Markov chains. Built entirely in Python without external NLP libraries, it demonstrates the core principles of probabilistic text generation and next-word prediction.
 
+[Download training data](#download-training-data) and [run the CLI](#run-the-cli)
+
 ## What It Does
 
 Given a corpus of text, PureMarkov learns transition probabilities between word sequences and uses them to:
