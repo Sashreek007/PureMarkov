@@ -9,7 +9,7 @@ The core idea:
     5. Use these probabilities to predict
 
 Most of this code is basic probability
-ps- this is my first time using fp, so code might be inefficient
+ps- this is my first time using anonymous functions, so code might be inefficient
 """
 
 from collections import defaultdict
