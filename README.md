@@ -40,7 +40,7 @@ P(word_t+1 | word_{t-n+1}...word_{t}) = count(word_{t-n+1}...,word_{t},word_{t+1
 - **Limited context** - No long-range dependencies (unlike neural networks)
 - **No semantic understanding** - Pure statistical pattern matching
 - **Memoryless** - Each prediction only considers the immediate context
-- ✅ **But**: Fast, interpretable, and resource-efficient
+- **But**: Fast, interpretable, and resource-efficient
 
 ### 1. Download Training Data
 ```bash
