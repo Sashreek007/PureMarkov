@@ -44,13 +44,14 @@ P(word_t+1 | word_{t-n+1}...word_{t}) = count(word_{t-n+1}...,word_{t},word_{t+1
 - **Memoryless** - Each prediction only considers the immediate context
 - **But**: Fast, interpretable, and resource-efficient
 
-### 1. Download Training Data
+### 1. Download Training Data  {#download-training-data}
 ```bash
 python3 download_data.py
 ```
 This will download ~10 million words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
 
-### 2. Run the CLI
+### 2. Run the CLI {#run-the-cli}
+
 ```bash
 python3 markovCLI.py
 ```
