@@ -24,6 +24,7 @@ The implementation follows the classical approach to language modeling:
 ## Key Features
 
 - **Variable-order modeling** (unigram, bigram, trigram, etc.)
+- **Lightning-fast training** (9.7M words in ~8 seconds)
 - **Interactive CLI** for exploration and experimentation
 - **Pure Python** - No ML frameworks, just probability and statistics
 - **Fully tested** - 30 comprehensive unit tests
@@ -36,7 +37,6 @@ For order-N Markov chains:
 P(word_t+1 | word_{t-n+1}...word_{t}) = count(word_{t-n+1}...,word_{t},word_{t+1}) / SUM(count(word_{t-n+1}...word_{t},word'))
 ```
 
-
 ## Limitations & Trade-offs
 
 - **Limited context** - No long-range dependencies (unlike neural networks)
@@ -44,25 +44,23 @@ P(word_t+1 | word_{t-n+1}...word_{t}) = count(word_{t-n+1}...,word_{t},word_{t+1
 - **Memoryless** - Each prediction only considers the immediate context
 - **But**: Fast, interpretable, and resource-efficient
 
-### 1. Download Training Data  {#download-training-data}
+## Quick Start
+
+### 1. Download Training Data {#download-training-data}
 ```bash
 python3 download_data.py
 ```
+
 This will download ~10 million words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
 
 ### 2. Run the CLI {#run-the-cli}
-
 ```bash
 python3 markovCLI.py
 ```
+
 Then:
 - Select an order (1, 2, or 3)
 - The program will automatically load the training data
 - Start predicting words or generating text!
 
-## Features
-
-- **Variable-order Markov chains** (order 1, 2, 3+)
-- **Interactive CLI** for predictions and text generation
-- **Comprehensive unit tests** (30 tests, all passing)
-- **Minimal dependencies** - pure Python implementation
+  
