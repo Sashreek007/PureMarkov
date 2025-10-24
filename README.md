@@ -3,13 +3,13 @@ PureMarkov is a from-scratch implementation of **statistical language modeling**
 
 ### 1. Download Training Data  
 ```bash
-python3 download_data.py
+chmod +x  markovData.sh
+./markovData.sh
 ```
 This will download words from Project Gutenberg books and create `gutenberg_combined.txt` in the `MarkovData` folder.
 ### 2. Run the CLI 
 ```bash
-chmod +x  markovData.sh
-./markovData.sh
+python3 markovCLI.py
 ```
 Then:
 - Select an order (1, 2, or 3)
